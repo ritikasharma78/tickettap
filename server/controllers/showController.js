@@ -103,8 +103,8 @@ export const getShows = async (req, res) => {
       .populate("movie")
       .sort({ showDateTime: 1 });
 
-    console.log("Shows found:", shows.length);
-    console.log(shows);
+    // console.log("Shows found:", shows.length);
+    // console.log(shows);
 
     //filter unique shows
     const uniqueShows = new Set(shows.map((show) => show.movie));

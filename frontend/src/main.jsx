@@ -5,7 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import { ClerkProvider } from "@clerk/react";
 import { dark } from "@clerk/themes";
 import "@clerk/themes/shadcn.css";
-
+import { AppProvider } from "./context/AppContext.jsx";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -15,16 +15,18 @@ if (!PUBLISHABLE_KEY) {
 
 createRoot(document.getElementById("root")).render(
   <ClerkProvider
-  publishableKey={PUBLISHABLE_KEY}
- appearance={{
-    theme: dark,
-     variables: {
-      colorPrimary: "#f84565",
-    },
-  }}
->
+    publishableKey={PUBLISHABLE_KEY}
+    appearance={{
+      theme: dark,
+      variables: {
+        colorPrimary: "#f84565",
+      },
+    }}
+  >
     <BrowserRouter>
-      <App />
+      <AppProvider>
+        <App />
+      </AppProvider>
     </BrowserRouter>
   </ClerkProvider>,
 );
