@@ -57,7 +57,7 @@ const syncUserUpdation = inngest.createFunction(
 const releaseSeatsAndDeleteBooking = inngest.createFunction(
   {
     id: "release-seats-delete-booking",
-    trigger: { event: "app/checkpayment" },
+    triggers: { event: "app/checkpayment" },
   },
   async ({ event, step }) => {
     const tenMinutesLater = new Date(Date.now() + 10 * 60 * 1000);
@@ -85,7 +85,7 @@ const releaseSeatsAndDeleteBooking = inngest.createFunction(
 const sendBookingConfirmationEmail = inngest.createFunction(
   {
     id: "send-booking-confirmation-email",
-    trigger: { event: "app/show.booked" },
+    triggers: { event: "app/show.booked" },
   },
   async ({ event, step }) => {
     const { bookingId } = event.data;
@@ -124,5 +124,5 @@ export const functions = [
   syncUserDeletion,
   syncUserUpdation,
   releaseSeatsAndDeleteBooking,
-  sendBookingConfirmationEmail
+  sendBookingConfirmationEmail,
 ];
