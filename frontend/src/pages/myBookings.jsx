@@ -3,6 +3,7 @@ import { dummyBookingData } from "../../assets/assets";
 import Loading from "../components/loading";
 import BlurCircle from "../components/blurCircle";
 import timeFormat from "../../libs/timeFormat";
+import { useAppContext } from "../context/AppContext";
 import { dateFormat } from "../../libs/dateFormat";
 
 const MyBookings = () => {
@@ -10,14 +11,26 @@ const MyBookings = () => {
   const [bookings, setBookings] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const { axios, getToken, user, image_base_url } = useAppContext();
+
   const getMyBookings = async () => {
-    setBookings(dummyBookingData);
+    try {
+      const { data } = await axios.get("/api/user/bookings", {
+        headers: { Authorization: `Bearer ${await getToken()}` },
+      });
+
+      if (data.success) {
+        setBookings(data.bookings);
+      }
+    } catch (error) {
+      console.log(error);
+    }
     setIsLoading(false);
   };
 
   useEffect(() => {
-    getMyBookings();
-  }, []);
+    if (user) getMyBookings();
+  }, [user]);
   return !isLoading ? (
     <div className="relative px-6 md:px-16 lg:px-40 pt-30 md:pt-26 min-h-[80vh]">
       <BlurCircle top="100px" left="100px" />
@@ -33,7 +46,7 @@ const MyBookings = () => {
           {/* left side of the card */}
           <div className="flex flex-col md:flex-row">
             <img
-              src={item.show.movie.poster_path}
+              src={ image_base_url +  item.show.movie.poster_path}
               alt=""
               className="md:max-w-45 aspect-video h-auto object-cover object-bottom rounded"
             />
