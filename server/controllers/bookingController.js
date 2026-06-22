@@ -1,4 +1,4 @@
-import { useId } from "react";
+import React, { useId } from "react";
 import Booking from "../models/Booking.js";
 import Show from "../models/Show.js";
 import stripe from "stripe";
@@ -57,10 +57,9 @@ export const createBooking = async (req, res) => {
     await showData.save();
 
     //stripe gateway initialize
-     const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY);
+    const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY);
 
-
-       // Creating line items for Stripe
+    // Creating line items for Stripe
     const line_items = [
       {
         price_data: {
@@ -85,10 +84,8 @@ export const createBooking = async (req, res) => {
       expires_at: Math.floor(Date.now() / 1000) + 30 * 60, // Expires in 30 minutes
     });
 
-     booking.paymentLink = session.url;
+    booking.paymentLink = session.url;
     await booking.save();
-
-
 
     res.json({ success: true, url: session.url });
   } catch (error) {

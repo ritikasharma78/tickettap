@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { dummyBookingData } from "../../assets/assets";
+import { Link } from "react-router-dom";
 import Loading from "../components/loading";
 import BlurCircle from "../components/blurCircle";
 import timeFormat from "../../libs/timeFormat";
@@ -46,7 +46,7 @@ const MyBookings = () => {
           {/* left side of the card */}
           <div className="flex flex-col md:flex-row">
             <img
-              src={ image_base_url +  item.show.movie.poster_path}
+              src={image_base_url + item.show.movie.poster_path}
               alt=""
               className="md:max-w-45 aspect-video h-auto object-cover object-bottom rounded"
             />
@@ -70,9 +70,12 @@ const MyBookings = () => {
                 {item.amount}
               </p>
               {!item.isPaid && (
-                <button className="bg-primary px-4 py-1.5 mb-3 text-sm rounded-full font-medium cursor-pointer">
+                <Link
+                  to={item.paymentLink}
+                  className="bg-primary px-4 py-1.5 mb-3 text-sm rounded-full font-medium cursor-pointer"
+                >
                   Pay Now
-                </button>
+                </Link>
               )}
             </div>
 
