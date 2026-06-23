@@ -47,7 +47,7 @@ export const updateFavorite = async (req, res) => {
     await clerkClient.users.updateUserMetadata(userId, {
       privateMetadata: user.privateMetadata,
     });
-    res.json({ success: true, message: "Favorite movie updated." });
+    res.json({ success: true, message: "Favorites updated." });
   } catch (error) {
     console.error(error.message);
     res.json({ success: false, message: error.message });

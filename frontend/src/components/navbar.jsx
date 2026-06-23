@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { assets } from "../../assets/assets";
 import { MenuIcon, SearchIcon, TicketPlus, XIcon } from "lucide-react";
@@ -7,6 +7,7 @@ import { useAppContext } from "../context/AppContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showLogo, setShowLogo] = useState(true);
   const { user } = useUser();
   const { openSignIn } = useClerk();
 
@@ -14,10 +15,25 @@ const Navbar = () => {
 
   const { favoriteMovies } = useAppContext();
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowLogo(window.scrollY < 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <div className="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-6 py-5 md:px-16 lg:px-36 ">
-      <Link to="/" className="max-md:flex-1">
-        <img src={assets.logo} alt="logo" className="w-36 h-auto" />
+      <Link
+        to="/"
+        className={`max-md:flex-1 overflow-hidden transition-all duration-300 ${
+          showLogo ? "w-38 opacity-100" : "w-0 opacity-0"
+        }`}
+      >
+        <img src={assets.logo1} alt="logo" className="w-38 h-auto" />
       </Link>
 
       {/* menu items */}
@@ -56,7 +72,7 @@ const Navbar = () => {
         >
           Theaters
         </Link> */}
-        
+
         {favoriteMovies.length > 0 && (
           <Link
             onClick={() => {
@@ -66,8 +82,6 @@ const Navbar = () => {
           >
             Favourites
           </Link>
-
-
         )}
 
         <Link
