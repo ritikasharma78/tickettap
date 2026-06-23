@@ -102,66 +102,62 @@ const sendBookingConfirmationEmail = inngest.createFunction(
     await step.run("send-confirmation-email", async () => {
       await sendEmail({
         to: booking.user.email,
-        subject: `Payment Confirmation: "${booking.show.movie.title}" booked!`,
+        subject: `Booking Confirmed: "${booking.show.movie.title}"`,
         body: `
-<div style="background-color: #0f0f0f; padding: 40px 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
-  <div style="max-width: 560px; margin: 0 auto; background-color: #1a1a1a; border-radius: 12px; overflow: hidden;">
-    
-    <!-- Header -->
-    <div style="background-color: #F84565; padding: 32px; text-align: center;">
-      <h1 style="margin: 0; color: #ffffff; font-size: 28px; letter-spacing: 2px; text-transform: uppercase;">TicketTap</h1>
-      <p style="margin: 6px 0 0; color: rgba(255,255,255,0.85); font-size: 13px; letter-spacing: 1px;">Your booking is confirmed 🎉</p>
+<div style="padding: 24px 16px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+  <div style="max-width: 540px; margin: 0 auto; border: 1px solid #e5e5e5; border-radius: 12px; overflow: hidden;">
+
+    <div style="background: #F84565; padding: 28px 32px; text-align: center;">
+      <p style="margin: 0; color: #fff; font-size: 24px; letter-spacing: 3px; text-transform: uppercase; font-weight: 500;">TicketTap</p>
+      <p style="margin: 6px 0 0; color: rgba(255,255,255,0.85); font-size: 12px; letter-spacing: 1px;">Your booking is confirmed 🎉</p>
     </div>
 
-    <!-- Body -->
-    <div style="padding: 36px 32px;">
-      <p style="margin: 0 0 24px; color: #cccccc; font-size: 15px;">Hi <strong style="color: #ffffff;">${booking.user.name}</strong>,</p>
-      <p style="margin: 0 0 28px; color: #cccccc; font-size: 15px; line-height: 1.6;">
+    <div style="padding: 32px; background: #ffffff;">
+      <p style="margin: 0 0 20px; color: #333333; font-size: 15px;">Hi <span style="color: #111111; font-weight: 500;">${booking.user.name}</span>,</p>
+      <p style="margin: 0 0 24px; color: #666666; font-size: 14px; line-height: 1.7;">
         Your seats are locked in! Here's everything you need to know about your upcoming show.
       </p>
 
-      <!-- Movie Card -->
-      <div style="background-color: #252525; border-radius: 10px; padding: 24px; margin-bottom: 28px;">
-        <h2 style="margin: 0 0 16px; color: #F84565; font-size: 20px;">${booking.show.movie.title}</h2>
+      <div style="background: #f9f9f9; border: 1px solid #eeeeee; border-radius: 10px; padding: 22px; margin-bottom: 24px;">
+        <p style="margin: 0 0 16px; color: #F84565; font-size: 19px; font-weight: 500;">${booking.show.movie.title}</p>
         <table style="width: 100%; border-collapse: collapse;">
           <tr>
-            <td style="padding: 8px 0; color: #888888; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; width: 40%;">Date</td>
-            <td style="padding: 8px 0; color: #ffffff; font-size: 14px;">
+            <td style="padding: 9px 0; color: #999; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; width: 38%; border-bottom: 1px solid #eeeeee;">Date</td>
+            <td style="padding: 9px 0; color: #111111; font-size: 13px; border-bottom: 1px solid #eeeeee;">
               ${new Date(booking.show.showDateTime).toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric", timeZone: "Asia/Kolkata" })}
             </td>
           </tr>
           <tr>
-            <td style="padding: 8px 0; color: #888888; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">Time</td>
-            <td style="padding: 8px 0; color: #ffffff; font-size: 14px;">
+            <td style="padding: 9px 0; color: #999; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #eeeeee;">Time</td>
+            <td style="padding: 9px 0; color: #111111; font-size: 13px; border-bottom: 1px solid #eeeeee;">
               ${new Date(booking.show.showDateTime).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" })}
             </td>
           </tr>
           <tr>
-            <td style="padding: 8px 0; color: #888888; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">Seats</td>
-            <td style="padding: 8px 0; color: #ffffff; font-size: 14px;">${booking.bookedSeats.join(", ")}</td>
+            <td style="padding: 9px 0; color: #999; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #eeeeee;">Seats</td>
+            <td style="padding: 9px 0; border-bottom: 1px solid #eeeeee;">
+              ${booking.bookedSeats.map((seat) => `<span style="background: #F84565; color: #fff; font-size: 12px; padding: 3px 10px; border-radius: 20px; font-weight: 500; margin-right: 4px;">${seat}</span>`).join("")}
+            </td>
           </tr>
           <tr>
-            <td style="padding: 8px 0; color: #888888; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">Amount Paid</td>
-            <td style="padding: 8px 0; color: #ffffff; font-size: 14px;">₹${booking.amount}</td>
+            <td style="padding: 9px 0; color: #999; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Amount Paid</td>
+            <td style="padding: 9px 0; color: #111111; font-size: 13px; font-weight: 500;">₹${booking.amount}</td>
           </tr>
         </table>
       </div>
 
-      <p style="margin: 0; color: #888888; font-size: 13px; line-height: 1.6; text-align: center;">
-        Grab your popcorn and enjoy the show! 🍿<br/>
-        See you at the movies.
+      <p style="margin: 0; color: #999999; font-size: 13px; line-height: 1.7; text-align: center;">
+        Grab your popcorn and enjoy the show! 🍿<br/>See you at the movies.
       </p>
     </div>
 
-    <!-- Footer -->
-    <div style="border-top: 1px solid #2a2a2a; padding: 20px 32px; text-align: center;">
-      <p style="margin: 0; color: #555555; font-size: 12px;">© 2026 TicketTap. All rights reserved.</p>
-      <p style="margin: 6px 0 0; color: #555555; font-size: 12px;">This is an automated confirmation email, please do not reply.</p>
+    <div style="border-top: 1px solid #eeeeee; padding: 18px 32px; text-align: center; background: #fafafa;">
+      <p style="margin: 0; color: #aaaaaa; font-size: 12px;">© 2026 TicketTap. All rights reserved.</p>
+      <p style="margin: 5px 0 0; color: #aaaaaa; font-size: 11px;">This is an automated confirmation email, please do not reply.</p>
     </div>
 
   </div>
-</div>
-`,
+</div>`,
       });
     });
   },
