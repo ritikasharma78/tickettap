@@ -32,11 +32,11 @@ const ListBookings = () => {
     <table className="w-full border-collapse rounded-md overflow-hidden text-nowrap">
       <thead>
             <tr className="bg-primary/20 text-left text-white">
-              <th className="p-2 font-medium pl-5"> User Name </th>
-              <th className="p-2 font-medium "> Movie Time </th>
-              <th className="p-2 font-medium "> Show Time</th>
-              <th className="p-2 font-medium "> Seats </th>
-              <th className="p-2 font-medium "> Amount </th>
+              <th className="p-2 text-gray-400 text-xs uppercase pl-5"> S. no </th>
+              <th className="p-2 text-gray-400 text-xs uppercase "> Movie Time </th>
+              <th className="p-2 text-gray-400 text-xs uppercase "> Show Time</th>
+              <th className="p-2 text-gray-400 text-xs uppercase "> Seats </th>
+              <th className="p-2 text-gray-400 text-xs uppercase "> Amount </th>
             </tr>
           </thead>
 
@@ -45,7 +45,7 @@ const ListBookings = () => {
       <tbody className="text-sm font-light">
                   {bookings.map((item, index)=>(
                     <tr key={index} className="border-b border-primary/20 bg-primary/5 even:bg-primary/10">
-                      <td className="p-2 min-w-45 pl-5">{item.user.name}</td>
+                      <td className="p-2  pl-5">{index + 1}</td>
                       <td className="p-2">{item.show.movie.title}</td>
                       <td className="p-2">{dateFormat(item.show.showDateTime)}</td>
                       <td className="p-2">{Object.keys(item.bookedSeats).map(seat=> item.bookedSeats[seat]).join(",")}</td>

@@ -38,10 +38,11 @@ const ListShows = () => {
         <table className="w-full border-collapse rounded-md overflow-hidden text-nowrap">
           <thead>
             <tr className="bg-primary/20 text-left text-white">
-              <th className="p-2 font-medium pl-5"> Movie Name </th>
-              <th className="p-2 font-medium "> Show Time </th>
-              <th className="p-2 font-medium "> Total Bookings</th>
-              <th className="p-2 font-medium "> Earnings </th>
+            <th className="p-2 text-gray-400 text-xs uppercase"> S. no</th>
+              <th className="p-2 text-gray-400 text-xs uppercase "> Movie Name </th>
+              <th className="p-2 text-gray-400 text-xs uppercase "> Show Time </th>
+              <th className="p-2 text-gray-400 text-xs uppercase "> Total Bookings</th>
+              <th className="p-2 text-gray-400 text-xs uppercase "> Earnings </th>
             </tr>
           </thead>
 
@@ -51,7 +52,8 @@ const ListShows = () => {
                 key={index}
                 className="border-b border-primary/10 bg-primary/5 even:bg-primary/10"
               >
-                <td className="p-2 min-w-45 pl-5">{show.movie.title}</td>
+                <td className="p-2 pl-5">{index+1}</td>
+                <td className="p-2 min-w-45 ">{show.movie.title}</td>
                 <td className="p-2">{dateFormat(show.showDateTime)}</td>
                 <td className="p-2">
                   {Object.keys(show.occupiedSeats).length}
